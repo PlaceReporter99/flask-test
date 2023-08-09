@@ -44,5 +44,8 @@ jobs:
           username: "PlaceReporter99"
           email: "106759534+PlaceReporter99@users.noreply.github.com"
           
+      - name: Deploy pages # Deploy to github pages, as the workflow doesn't automatically run. Change "placereporter99" to your github username.
+        uses: placereporter99/flask_test/.github/workflows/pages@main
+          
       - name: Run flask app # This should keep the app running until the workflow is cancelled.
         run: python3 -m flask --app app run --host=0.0.0.0
