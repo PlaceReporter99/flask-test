@@ -36,6 +36,7 @@ jobs:
           git config --global user.name "$username"
           git config --global user.email "$email"
           git add -A
+          git pull
           git commit -m "GitHub Actions auto-commit: update ip in HTML file"
           git push
         env:
