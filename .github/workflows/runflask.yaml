@@ -27,9 +27,7 @@ jobs:
           python3 -m pip install -r requirements.txt
           
       - name: Run HTML updating script # Update index.html with the correct IP address.
-        run: python3 writehtml.py $port
-        env:
-          port: 2570
+        run: python3 writehtml.py
           
       - name: Commit changes # You need to commit the changes if you want them to appear in the repo. Note that this will show up as a commit from you.
         run: |
