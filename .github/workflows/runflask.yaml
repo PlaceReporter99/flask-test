@@ -11,6 +11,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "28 */5 * * *"
+  push:
+    paths:
+      - "app.py"
   
 jobs:
   run_flask:
