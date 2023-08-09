@@ -43,4 +43,4 @@ jobs:
           email: "106759534+PlaceReporter99@users.noreply.github.com"
           
       - name: Run flask app # This should keep the app running until the workflow is cancelled.
-        run: flask app run --host=0.0.0.0
+        run: python3 -m flask --app app run --host=0.0.0.0
