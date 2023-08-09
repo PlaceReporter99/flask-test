@@ -1,5 +1,12 @@
 name: Run flask app
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   schedule:
@@ -8,7 +15,32 @@ on:
 jobs:
   run_flask:
     runs-on: ubuntu-latest
-    - name: Checkout Repository
-      uses: actions/checkout@v3.5.3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository # Checkout the repo.
+        uses: actions/checkout@v3.5.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Install packages # We need flask installed, put that in your requirements.txt file.
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+          
+      - name: Run HTML updating script # Update index.html with the correct IP address.
+        run: python3 writehtml.py $port
+        env:
+          port: 2570
+          
+      - name: Commit changes # You need to commit the changes if you want them to appear in the repo. Note that this will show up as a commit from you.
+        run: |
+          git config --global user.name "$username"
+          git config --global user.email "$email"
+          git add -A
+          git commit -m "GitHub Actions auto-commit: update ip in HTML file"
+          git push
+        env:
+          username: "PlaceReporter99"
+          email: "106759534+PlaceReporter99@users.noreply.github.com"
+          
+      - name: Run flask app # This should keep the app running until the workflow is cancelled.
+        run: flask app run --host=0.0.0.0
